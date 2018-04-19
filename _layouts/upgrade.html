@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body class="left-sidebar">
+
+    {% include header.html %}
+
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon fa-laptop"></span>
+					<!-- <h2>Behold the <strong>Left Sidebar</strong></h2>
+					<p>Where things on the left ... accompany that on the right.</p>
+				-->
+				</header>
+					
+				<!-- One -->
+					<section class="wrapper style4 container">
+					
+						<div class="row oneandhalf">
+							<div class="4u">
+								
+								<!-- Sidebar -->
+									<div class="sidebar">
+									{% for post in site.categories.upgrade limit:3 %}
+									<section>
+									{{ post.excerpt }}
+									<header>
+										<h3>{{ post.title }}</h3>
+									</header>
+									<p></p>									
+									<footer>									
+										<ul class="buttons">									
+											<li><a href="{{ post.url }}" class="button small">Learn More</a></li>									
+										</ul>									
+									</footer>									
+									</section>
+									{% endfor %}
+
+									</div>
+
+							</div>
+							<div class="8u skel-cell-important">
+								
+								<!-- Content -->
+									<div class="content">
+										<section>
+										{{content}}
+										</section>
+									</div>
+	
+							</div>
+						</div>	
+						         <!-- Post comments -->
+                       					 <div class="notecomments">
+                                				{% include disqus.html %}
+                        				</div>
+
+					</section>
+
+				<!-- Two -->
+					<section class="wrapper style1 container special">
+						       
+					</section>
+					
+			</article>
+		{% include footer.html %}
+	</body>
+	<!-- css for hiding contents id disqus -->
+	<style>
+	#disqus_thread::after {
+	width: 80%;
+	float : right;
+	}
+	</style>
+</html>

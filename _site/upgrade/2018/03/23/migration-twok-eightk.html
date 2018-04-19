@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+  <!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+
+<head>
+    <title>Migration of database with 2k block size to 8k</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+    <meta name="keywords" content="" />
+    
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="manifest" href="/images/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+    <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.dropotron.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollgress.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/skel-layers.min.js"></script>
+    <script src="/js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/css/skel.css" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/style-wide.css" />
+        <link rel="stylesheet" href="/css/style-noscript.css" />
+    </noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
+    <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie/v9.css" /><![endif]-->
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="canonical" href="http://localhost:4000/upgrade/2018/03/23/migration-twok-eightk.html">
+</head>
+
+
+  <body class="left-sidebar">
+
+    <header id="header">
+				<h1 id="logo"><a href="/">dralmostright <span>Suman Adhikari</span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/">Welcome</a></li>
+                        			<li><a href="/blog.html">Blog</a></li>
+                        			<li><a href="/contact.html">Contact</a></li>
+                        			<li><a href="#">About Me</a></li>
+						<li class="submenu">
+							<a href="">Layouts</a>
+							<ul>
+								<li><a href="/left-sidebar.html">Left Sidebar</a></li>
+								<li><a href="/right-sidebar.html">Right Sidebar</a></li>
+								<li><a href="/no-sidebar.html">No Sidebar</a></li>
+								<li><a href="/contact.html">Contact</a></li>
+								<li class="submenu">
+									<a href="">Submenu</a>
+									<ul>
+										<li><a href="#">Dolore Sed</a></li>
+										<li><a href="#">Consequat</a></li>
+										<li><a href="#">Lorem Magna</a></li>
+										<li><a href="#">Sed Magna</a></li>
+										<li><a href="#">Ipsum Nisl</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<!-- <li><a href="#" class="button special">Sign Up</a></li> -->
+					</ul>
+				</nav>
+			</header>
+
+
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon fa-laptop"></span>
+					<!-- <h2>Behold the <strong>Left Sidebar</strong></h2>
+					<p>Where things on the left ... accompany that on the right.</p>
+				-->
+				</header>
+					
+				<!-- One -->
+					<section class="wrapper style4 container">
+					
+						<div class="row oneandhalf">
+							<div class="4u">
+								
+								<!-- Sidebar -->
+									<div class="sidebar">
+									
+									<section>
+									<p><span class="image featured"><img src="/images/2k-8k-mig-banner.png" alt="" /></span></p>
+
+
+									<header>
+										<h3>Migration of database with 2k block size to 8k</h3>
+									</header>
+									<p></p>									
+									<footer>									
+										<ul class="buttons">									
+											<li><a href="/upgrade/2018/03/23/migration-twok-eightk.html" class="button small">Learn More</a></li>									
+										</ul>									
+									</footer>									
+									</section>
+									
+									<section>
+									<p><span class="image featured"><img src="/images/pic03.jpg" alt="" /></span>
+Morbi a semper justo, non eleifend elit. Sed nulla nulla, porttitor nec volutpat eu, pulvinar vitae augue. Curabitur tempor quis lorem eget vestibulum. Aenean vel lacinia orci, ac sollicitudin felis. Nunc eros libero, posuere nec massa ac, consectetur sollicitudin elit. Duis tincidunt nunc et neque egestas rhoncus. Curabitur ut euismod lorem, ut rutrum neque. Nullam at sem eros. Nam interdum lectus non cursus viverra.</p>
+
+
+									<header>
+										<h3>Upgrade Oracle Database from 11g to 12c</h3>
+									</header>
+									<p></p>									
+									<footer>									
+										<ul class="buttons">									
+											<li><a href="/upgrade/2017/12/20/mig.html" class="button small">Learn More</a></li>									
+										</ul>									
+									</footer>									
+									</section>
+									
+
+									</div>
+
+							</div>
+							<div class="8u skel-cell-important">
+								
+								<!-- Content -->
+									<div class="content">
+										<section>
+										<p><span class="image featured"><img src="/images/2k-8k-mig-banner.png" alt="" /></span></p>
+
+<header>
+		<h3>A detailed note/hands on for changing database bock size parameter.</h3>
+</header>
+
+<p>The parameter <strong>DB_BLOCK_SIZE</strong> is one of the critical and important factor to considered during database creation. As This parameter can be set and changed once and only during creation of database. The incorrect choice of this parameter may lead to unnecessary performance burden on database server. Starting Oracle 9i release, each tablespace can have a different block size with a mandatory separate cache memory(i.e. defined by setting parameter DB_nK_CACHE_SIZE), thus giving a relief for criticality for choice of database block-size. But the point we just discussed is just a relief it’s not truly a solution. Hence a database must be rebuild to change the DB_BLOCK_SIZE parameter. The larger value for DB_BLOCK_SIZE results less I/O as more data resides in a single block but consumes more memory, in contrast smaller value lets to withdraw single records faster and saves memory. The choice of <strong>DB_BLOCK_SIZE</strong> parameters vary from environment to environment but must commonly used value is 8k.</p>
+
+<p>Now lets us consider we have a database with db_blcok_size 2k and we are facing unnecessary performance issues and we decided to change our 2k to 8k. So what are the viable options we can choose to carry out this task with less downtime.</p>
+
+<p>We can accomplish this task using Oracle Golden Gate, Materialized vies and Transportable Tablespace.</p>
+
+<p>In this article we will be focusing the method using Transportable Tablespace in conjunction with DBMS_REDEFINITION feature. We will go with enumerating each step, with code snippets and details.</p>
+
+<p>In nutshell our plan will be creating a new Database with in the same server (let’s call it as destination database) with 8k block size. Create new 8k tablespaces within 2k database (let’s call it as source database). Then migrate all the objects from 2k tablespace (of source database) to 8k tablespaces (of source database) using DBMS_REDEFINITION. With successful of that will export application schema metadata without table and import to destination 8k database (destination). Finally export 8k tablespace and import 8k tablespaces in the 8k database.</p>
+
+<p>Before getting our hands dirty, first lets describe our environment.</p>
+
+<ul style="list-style-type:disc; margin-left: 2em">
+<li>Our host environment is OEL 6.4</li>
+<li>Our database version is 11.2.0.4</li>
+<li>No Advanced Security Options are enabled</li>
+<li>Database Server Edition is Enterprise Edition</li>
+<li>Application User in database is one and only HR</li>
+</ul>
+
+<p><span>
+	<strong>Step: 1</strong>
+	<br />
+</span>
+As a first step it’s good to be ensure that valid full backup of database and it not found its most recommend to have one.</p>
+
+<p><span>
+	<strong>Step: 2</strong>
+	<br />
+</span>
+A new database instance with 8k block size is created in same server with <strong>identical character sets</strong>.</p>
+
+<p><span>
+	<strong>Step: 3</strong>
+	<br />
+</span>
+All application specific schemas are listed with consulting application team and tablespaces that holding application schema data are identified. With identification of schema and tablespaces the respective tablespaces with 8k block size are created with extension 8k i.e if tablespace name is users, the 8k block size tablespace are created as users8k. Before creating 8k tablespaces we need to set db_8k_cache_size parameter otherwise we will get ORA-29339 signaled during:  while creating tablespaces with 8k block size. As the database has only one application user HR and only one tablespace user we will only create user8k tablespace with 8k block size.</p>
+
+<p><span class="image featured"><img src="/images/upgrade/upgrade1.png" alt="" /></span></p>
+
+<p><span>
+	<strong>Step: 4</strong>
+	<br />
+</span>
+Our next step will be copying only structure of all application tables to newly created 8k tablespaces with 8k extension i.e if there is employee there with be respective table name employee8k table in 8k tablespace. We will user script to perform this task and link to the script will be given below at end of step. The script will automatically generate scripts to move tables from 2k to respective 8k tablespaces and execute also.</p>
+
+<p>With execution of script copytableDef.sh it generates two file as shown in snapshots for verification.
+<span class="image featured"><img src="/images/upgrade/upgrade2.png" alt="" /></span></p>
+
+<p>With execution of script copytableDef.sh new tables are created in respective 8k tablespaces. 
+<span class="image featured"><img src="/images/upgrade/upgrade3.png" alt="" /></span></p>
+
+<p>Please refer to link <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/copytableDef.sh">copytableDef.sh</a> for scripts.</p>
+
+<p><span>
+	<strong>Step: 5</strong>
+	<br />
+</span>
+The table redefinition prerequisite is checked and verified using DBMS_REDEFINITION.Please refer to Oracle documentation page to read about <a href="https://docs.oracle.com/cd/B28359_01/appdev.111/b28419/d_redefi.htm">DBMS_REDEFINITION</a>. The verification is done by using script mig2K-8K.sh and it can be download from <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/mig2K-8K.sh">github</a>. The verification of script can be done by checking respective log files as in snapshots.</p>
+
+<p><span class="image featured"><img src="/images/upgrade/upgrade4.png" alt="" /></span></p>
+
+<p><span>
+	<strong>Step: 6</strong>
+	<br />
+</span>
+Now verifying the redefinition status we can now redefine application tables residing to 2k tablespaces to respective tables *8k residing on 8k tablespaces and sync. We will also be using script here to perform the task. The script <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/startReDef.sh">startReDef.sh</a> does the following tasks for each application tables:</p>
+
+<ul style="list-style-type:disc; margin-left: 2em">
+<li>start redefining table using ROW_ID</li>
+<li>copy all dependent objects related to table and report if any errors</li>
+<li>with successful redefinition and copying data final sync the data between source and target tables</li>
+<li>drop the interim *8k table</li>
+<li>purge the recycle bin</li>
+<li>rebuild all indexes online</li>
+</ul>
+
+<p>First let’s capture where the currently the objects are as in snapshot below:
+<span class="image featured"><img src="/images/upgrade/upgrade5.png" alt="" /></span>
+Then lets execute the <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/startReDef.sh">startReDef.sh</a> script and view the log files.
+<span class="image featured"><img src="/images/upgrade/upgrade6.png" alt="" /></span>
+At last let’s verify the once again.
+<span class="image featured"><img src="/images/upgrade/upgrade7.png" alt="" /></span></p>
+
+<p><span>
+	<strong>Step: 7</strong>
+	<br />
+</span>
+We will export the application specific metadata excluding tables for application schemas using expdp in script <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/expAppSchema.sh">expAppSchema.sh</a>.
+<span class="image featured"><img src="/images/upgrade/upgrade10.png" alt="" /></span>
+Creating application schema user in destination db instance with 8k block size.
+<span class="image featured"><img src="/images/upgrade/upgrade11.png" alt="" /></span>
+Now let’s import the metadata to the destination instance with 8k block size using script <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/impAppSchema.sh">impAppSchema.sh</a>.
+<span class="image featured"><img src="/images/upgrade/upgrade12.png" alt="" /></span>
+The warnings can be ignored and will be resolved after compilation after import of transportable tablespae.</p>
+
+<p>Now let’s verity the import of objects in in destination instance.
+<span class="image featured"><img src="/images/upgrade/upgrade13.png" alt="" /></span></p>
+
+<p><span>
+	<strong>Step: 8</strong>
+	<br />
+</span>
+Now the system outage starts. In this step we will export meta data of the application specific schema excluding tables again we will perform this with script <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/expdpTTS.sh">expdpTTS.sh</a>, which will perform following tasks:</p>
+
+<ul style="list-style-type:disc; margin-left: 2em">
+<li>Automatically select 8k block size tablespaces holding application application schema data</li>
+<li>Change the status of selected tablespaces to read only status</li>
+<li>Generate expdp script for transportable space</li>
+<li>Run the generated script and take expdp for TTS</li>
+</ul>
+
+<p>Let’s run the <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/expdpTTS.sh">expdpTTS.sh</a>
+<span class="image featured"><img src="/images/upgrade/upgrade8.png" alt="" /></span>
+Also verify the tablespace status.
+<span class="image featured"><img src="/images/upgrade/upgrade9.png" alt="" /></span></p>
+
+<p><span>
+	<strong>Step: 9</strong>
+	<br />
+</span>
+In this step we will perform plug all Transported tablespace to database with 8k block size using script <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/impdpTTS.sh">impdpTTS.sh</a>, which will perform following tasks:</p>
+<ul style="list-style-type:disc; margin-left: 2em">
+<li>Generate transportable tablespace script</li>
+<li>Shutdown the source database instance i.e db with block size 2k</li>
+<li>Run the transportable tablespace script against 8k block size database</li>
+<li>Verify the import and data in destination 8k block size</li>
+</ul>
+
+<p>Let’s run the script <a href="https://github.com/dralmostright/2k-8k-migration/blob/master/impdpTTS.sh">impdpTTS.sh</a> and verify its output.
+<span class="image featured"><img src="/images/upgrade/upgrade14.png" alt="" /></span></p>
+
+<p>View objects in destination database instance i.e. db with block size 8k.
+<span class="image featured"><img src="/images/upgrade/upgrade15.png" alt="" /></span></p>
+
+<p>Verify the tablespace status in destination database instance i.e. db with block size 8k.
+<span class="image featured"><img src="/images/upgrade/upgrade16.png" alt="" /></span></p>
+
+<p>Verify the objects status in destination database instance i.e. db with block size 8k.
+<span class="image featured"><img src="/images/upgrade/upgrade17.png" alt="" /></span></p>
+
+<p>If any invalid objects lets compile all inavlid objects with utlrp.sql
+<span class="image featured"><img src="/images/upgrade/upgrade18.png" alt="" /></span></p>
+
+<p>Finally let’s verify the objects status.
+<span class="image featured"><img src="/images/upgrade/upgrade19.png" alt="" /></span></p>
+
+<p>Hmm now it’s done. :-) .</p>
+
+<p>You can get all the source codes of scripts used in Github repository <a href="https://github.com/dralmostright/2k-8k-migration">2k-8k-migration</a></p>
+
+<hr />
+
+<hr />
+
+<p><br />
+<br /></p>
+<style>
+	.image.featured{
+		display: inline;
+	}
+</style>
+
+
+										</section>
+									</div>
+	
+							</div>
+						</div>	
+						         <!-- Post comments -->
+                       					 <div class="notecomments">
+                                				<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'jmcglone'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+                        				</div>
+
+					</section>
+
+				<!-- Two -->
+					<section class="wrapper style1 container special">
+						       
+					</section>
+					
+			</article>
+		<!-- Footer -->
+<footer id="footer">
+
+    <ul class="icons">
+        <li><a href="https://twitter.com/dralmostright" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
+        <li><a href="https://www.facebook.com/dralmostright" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+        <li><a href="https://plus.google.com/u/0/+SumanAdhikari" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
+        <li><a href="https://github.com/dralmostright" class="icon circle fa-github"><span class="label">Github</span></a></li>
+        <li><a href="https://www.kaggle.com/dralmostright" class="icon circle fa-kaggle">k<span class="label">Kaggle</span></a></li>
+        <li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
+    </ul>
+
+    <ul class="copyright">
+        <li>&copy; Suman Adhikari</li><li>2018 <a href="#">dralmostright</a></li>
+    </ul>
+
+</footer>
+
+	</body>
+	<!-- css for hiding contents id disqus -->
+	<style>
+	#disqus_thread::after {
+	width: 80%;
+	float : right;
+	}
+	</style>
+</html>
