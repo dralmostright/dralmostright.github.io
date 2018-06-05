@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 01 Jun 2018 01:08:56 +0545</pubDate>
-    <lastBuildDate>Fri, 01 Jun 2018 01:08:56 +0545</lastBuildDate>
+    <pubDate>Tue, 05 Jun 2018 22:59:09 +0545</pubDate>
+    <lastBuildDate>Tue, 05 Jun 2018 22:59:09 +0545</lastBuildDate>
     <generator>Jekyll v3.7.3</generator>
     
       <item>
@@ -240,6 +240,109 @@ destroy interface 111939a30 { host 'node2', haName '674a-6c55-9728-1e49', local 
         
         
         <category>upgrade</category>
+        
+      </item>
+    
+      <item>
+        <title>Basic Commands Every Unix DBA Should Know</title>
+        <description>&lt;p&gt;&lt;a href=&quot;#&quot; class=&quot;image featured&quot;&gt; &lt;img src=&quot;/images/cmdwordcloud.png&quot; alt=&quot;&quot; /&gt; &lt;/a&gt;&lt;/p&gt;
+
+&lt;header&gt;
+		&lt;h3&gt;O/S specific commands (Unix)&lt;/h3&gt;
+&lt;/header&gt;
+&lt;p&gt; Here I will discuss some important Unix commands that every Unix DBA's should be familiar with. Though I am not prioritizing the commands but I think its good to know them all.
+&lt;/p&gt;
+
+&lt;p&gt;&lt;span&gt;
+	&lt;strong&gt;1. tail&lt;/strong&gt;
+	&lt;br /&gt;
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;So here comes our first command tail. This command is basically used to display last given lines of a file. By default, tail will output the last 10 lines of its input 
+to the standard output. Though the amount of output lines can be adjusted as per our need using appropriate flags. I basically use this command for real time reporting and 
+monitoring when ever i am configuring/maintaining/installing a new component in a unix box. I will give some small demo too for using the appropriate syntax:&lt;/p&gt;
+
+&lt;p style=&quot; margin-bottom: -1em;&quot;&gt;Using default tail:&lt;/p&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[oracle@test trace]$ tail alert_test.log
+Archived Log entry 23340 added for thread 1 sequence 10608 ID 0x21188f06 dest 1:
+Tue Jun 05 02:00:00 2018
+Closing scheduler window
+Closing Resource Manager plan via scheduler window
+Clearing Resource Manager plan via parameter
+Tue Jun 05 06:05:39 2018
+Thread 1 advanced to log sequence 10610 (LGWR switch)
+  Current log# 2 seq# 10610 mem# 0: /oradata/test/redo02.log
+Tue Jun 05 06:05:40 2018
+Archived Log entry 23341 added for thread 1 sequence 10609 ID 0x21188f06 dest 1:
+[oracle@test trace]$
+  &lt;/code&gt;
+&lt;/pre&gt;
+&lt;p&gt;What if you want to view only two last lines. You can do it by specifying &lt;strong&gt;-2&lt;/strong&gt; immediately after tail command and file to monitor. You can specify any &lt;strong&gt;n&lt;/strong&gt; number of lines where n can be any values 1, 200, 5000 etc. But remember if you file is of big enough you should consider your box's resource.&lt;/p&gt;
+
+&lt;p style=&quot; margin-bottom: -1em;&quot;&gt;Again What if you want to view only 5 last lines and thereafter realtime monitoring. You can do it by specifying &lt;strong&gt;-5f&lt;/strong&gt; immediately after tail command and file to monitor.&lt;/p&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[oracle@test trace]$ tail -5f alert_test.log
+Setting Resource Manager plan DEFAULT_MAINTENANCE_PLAN via parameter
+Tue Jun 05 22:00:00 2018
+Starting background process VKRM
+Tue Jun 05 22:00:00 2018
+VKRM started with pid=39, OS id=31838
+  &lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;span&gt;
+	&lt;strong&gt;2. head&lt;/strong&gt;
+	&lt;br /&gt;
+&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-bottom: -1em;&quot;&gt;&lt;strong&gt;head&lt;/strong&gt; command is another useful command for Unix DBA's. It will output the first n part of files given to it via standard input to standard output. 
+By default head returns the first ten lines of each file that it is given. You can also head multiple files at once too. You can have reference as below:&lt;/p&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black;&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[oracle@test trace]$ head -5 alert_test.log
+Mon Jan 05 17:45:59 2015
+Errors in file /u01/app/oracle/diag/rdbms/test/test/trace/test_j000_31350.trc:
+ORA-12012: error on auto execute of job &quot;EXFSYS&quot;.&quot;RLM$SCHDNEGACTION&quot;
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+ORA-01031: insufficient privileges
+[oracle@test trace]$
+
+[oracle@test trace]$ head alert_test.log test_mmon_3000.trm
+==&amp;gt; alert_test.log &amp;lt;==
+Mon Jan 05 17:45:59 2015
+Errors in file /u01/app/oracle/diag/rdbms/test/test/trace/test_j000_31350.trc:
+ORA-12012: error on auto execute of job &quot;EXFSYS&quot;.&quot;RLM$SCHDNEGACTION&quot;
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+ORA-01031: insufficient privileges
+Errors in file /u01/app/oracle/diag/rdbms/test/test/trace/test_j000_31350.trc:
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+ORA-01031: insufficient privileges
+ORA-12012: error on auto execute of job &quot;EXFSYS&quot;.&quot;RLM$SCHDNEGACTION&quot;
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+
+==&amp;gt; test_mmon_3000.trm &amp;lt;==
+@2|2|XJ8eGcq32&quot;3000|test|
+M/XJ8eGcq32~I1Q2
+3?R2~rJ
+M?lW2eGcq32~B8b1
+J?bh81I~Ub1
+J?HYAvH~Ub1
+J?zlb4I~1b1
+J?MhS4I~Ub1
+J?oZN4I~Ub1
+J?f+e4I~1b1
+[oracle@test trace]$
+  &lt;/code&gt;
+&lt;/pre&gt;
+</description>
+        <pubDate>Thu, 31 May 2018 18:05:00 +0545</pubDate>
+        <link>http://localhost:4000/unixdbacmd/2018/05/31/unix-dba-cmd.html</link>
+        <guid isPermaLink="true">http://localhost:4000/unixdbacmd/2018/05/31/unix-dba-cmd.html</guid>
+        
+        
+        <category>unixdbacmd</category>
         
       </item>
     

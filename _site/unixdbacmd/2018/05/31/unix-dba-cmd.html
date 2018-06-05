@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+  <!--
+	Twenty by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+
+<head>
+    <title>Basic Commands Every Unix DBA Should Know</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+    <meta name="keywords" content="" />
+    
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="manifest" href="/images/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+    <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.dropotron.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollgress.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/skel-layers.min.js"></script>
+    <script src="/js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="/css/skel.css" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/style-wide.css" />
+        <link rel="stylesheet" href="/css/style-noscript.css" />
+    </noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie/v8.css" /><![endif]-->
+    <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie/v9.css" /><![endif]-->
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="canonical" href="http://localhost:4000/unixdbacmd/2018/05/31/unix-dba-cmd.html">
+</head>
+
+
+  <body class="no-sidebar">
+
+    <header id="header">
+				<h1 id="logo"><a href="/">dralmostright <span>Suman Adhikari</span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/">Welcome</a></li>
+                        			<li><a href="/blog.html">Blog</a></li>
+                        			<li><a href="/contact.html">Contact</a></li>
+                        			<li><a href="#">About Me</a></li>
+						<li class="submenu">
+							<a href="">Layouts</a>
+							<ul>
+								<li><a href="/left-sidebar.html">Left Sidebar</a></li>
+								<li><a href="/right-sidebar.html">Right Sidebar</a></li>
+								<li><a href="/no-sidebar.html">No Sidebar</a></li>
+								<li><a href="/contact.html">Contact</a></li>
+								<li class="submenu">
+									<a href="">Submenu</a>
+									<ul>
+										<li><a href="#">Dolore Sed</a></li>
+										<li><a href="#">Consequat</a></li>
+										<li><a href="#">Lorem Magna</a></li>
+										<li><a href="#">Sed Magna</a></li>
+										<li><a href="#">Ipsum Nisl</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<!-- <li><a href="#" class="button special">Sign Up</a></li> -->
+					</ul>
+				</nav>
+			</header>
+
+    <div class="page-content">
+    	<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon fa-mobile"></span>
+					<h2>Basic Commands Every <strong>Unix DBA Should Know</strong></h2>
+					<p>Where that in the center faces the nameless horrors alone.</p>
+				</header>
+					
+				<!-- One -->
+					<section class="wrapper style4 container">
+					
+						<!-- Content -->
+							<div class="content">
+								<section>
+
+									<p><a href="#" class="image featured"> <img src="/images/cmdwordcloud.png" alt="" /> </a></p>
+
+<header>
+		<h3>O/S specific commands (Unix)</h3>
+</header>
+<p> Here I will discuss some important Unix commands that every Unix DBA's should be familiar with. Though I am not prioritizing the commands but I think its good to know them all.
+</p>
+
+<p><span>
+	<strong>1. tail</strong>
+	<br />
+</span></p>
+
+<p>So here comes our first command tail. This command is basically used to display last given lines of a file. By default, tail will output the last 10 lines of its input 
+to the standard output. Though the amount of output lines can be adjusted as per our need using appropriate flags. I basically use this command for real time reporting and 
+monitoring when ever i am configuring/maintaining/installing a new component in a unix box. I will give some small demo too for using the appropriate syntax:</p>
+
+<p style=" margin-bottom: -1em;">Using default tail:</p>
+<pre style="overflow: auto; font-family: monospace; font-size: 0.8em; color: black">
+<code class="bash">
+[oracle@test trace]$ tail alert_test.log
+Archived Log entry 23340 added for thread 1 sequence 10608 ID 0x21188f06 dest 1:
+Tue Jun 05 02:00:00 2018
+Closing scheduler window
+Closing Resource Manager plan via scheduler window
+Clearing Resource Manager plan via parameter
+Tue Jun 05 06:05:39 2018
+Thread 1 advanced to log sequence 10610 (LGWR switch)
+  Current log# 2 seq# 10610 mem# 0: /oradata/test/redo02.log
+Tue Jun 05 06:05:40 2018
+Archived Log entry 23341 added for thread 1 sequence 10609 ID 0x21188f06 dest 1:
+[oracle@test trace]$
+  </code>
+</pre>
+<p>What if you want to view only two last lines. You can do it by specifying <strong>-2</strong> immediately after tail command and file to monitor. You can specify any <strong>n</strong> number of lines where n can be any values 1, 200, 5000 etc. But remember if you file is of big enough you should consider your box's resource.</p>
+
+<p style=" margin-bottom: -1em;">Again What if you want to view only 5 last lines and thereafter realtime monitoring. You can do it by specifying <strong>-5f</strong> immediately after tail command and file to monitor.</p>
+<pre style="overflow: auto; font-family: monospace; font-size: 0.8em; color: black">
+<code class="bash">
+[oracle@test trace]$ tail -5f alert_test.log
+Setting Resource Manager plan DEFAULT_MAINTENANCE_PLAN via parameter
+Tue Jun 05 22:00:00 2018
+Starting background process VKRM
+Tue Jun 05 22:00:00 2018
+VKRM started with pid=39, OS id=31838
+  </code>
+</pre>
+
+<p><span>
+	<strong>2. head</strong>
+	<br />
+</span></p>
+<p style=" margin-bottom: -1em;"><strong>head</strong> command is another useful command for Unix DBA's. It will output the first n part of files given to it via standard input to standard output. 
+By default head returns the first ten lines of each file that it is given. You can also head multiple files at once too. You can have reference as below:</p>
+<pre style="overflow: auto; font-family: monospace; font-size: 0.8em; color: black;">
+<code class="bash">
+[oracle@test trace]$ head -5 alert_test.log
+Mon Jan 05 17:45:59 2015
+Errors in file /u01/app/oracle/diag/rdbms/test/test/trace/test_j000_31350.trc:
+ORA-12012: error on auto execute of job "EXFSYS"."RLM$SCHDNEGACTION"
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+ORA-01031: insufficient privileges
+[oracle@test trace]$
+
+[oracle@test trace]$ head alert_test.log test_mmon_3000.trm
+==&gt; alert_test.log &lt;==
+Mon Jan 05 17:45:59 2015
+Errors in file /u01/app/oracle/diag/rdbms/test/test/trace/test_j000_31350.trc:
+ORA-12012: error on auto execute of job "EXFSYS"."RLM$SCHDNEGACTION"
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+ORA-01031: insufficient privileges
+Errors in file /u01/app/oracle/diag/rdbms/test/test/trace/test_j000_31350.trc:
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+ORA-01031: insufficient privileges
+ORA-12012: error on auto execute of job "EXFSYS"."RLM$SCHDNEGACTION"
+ORA-04045: errors during recompilation/revalidation of NU_LIVE_31_MAR.TRG_MFIN_LOGOFF
+
+==&gt; test_mmon_3000.trm &lt;==
+@2|2|XJ8eGcq32"3000|test|
+M/XJ8eGcq32~I1Q2
+3?R2~rJ
+M?lW2eGcq32~B8b1
+J?bh81I~Ub1
+J?HYAvH~Ub1
+J?zlb4I~1b1
+J?MhS4I~Ub1
+J?oZN4I~Ub1
+J?f+e4I~1b1
+[oracle@test trace]$
+  </code>
+</pre>
+
+									
+								</section>
+							</div>
+
+					</section>
+
+
+				<!-- Two -->
+					<section class="wrapper style1 container special">
+						<div class="row">
+							
+							<div class="4u">
+									<section>
+									<p><a href="#" class="image featured"> <img src="/images/cmdwordcloud.png" alt="" /> </a></p>
+
+
+									<header>
+										<h3>Basic Commands Every Unix DBA Should Know</h3>
+									</header>
+									<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>									
+									<footer>									
+										<ul class="buttons">									
+											<li><a href="/unixdbacmd/2018/05/31/unix-dba-cmd.html" class="button small">Learn More</a></li>									
+										</ul>									
+									</footer>									
+									</section>
+								</div>
+									
+			</article>
+
+    </div>
+    <!-- Footer -->
+<footer id="footer">
+
+    <ul class="icons">
+        <li><a href="https://twitter.com/dralmostright" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
+        <li><a href="https://www.facebook.com/dralmostright" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+        <li><a href="https://plus.google.com/u/0/+SumanAdhikari" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
+        <li><a href="https://github.com/dralmostright" class="icon circle fa-github"><span class="label">Github</span></a></li>
+        <li><a href="https://www.kaggle.com/dralmostright" class="icon circle fa-kaggle">k<span class="label">Kaggle</span></a></li>
+        <li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
+    </ul>
+
+    <ul class="copyright">
+        <li>&copy; Suman Adhikari</li><li>2018 <a href="#">dralmostright</a></li>
+    </ul>
+
+</footer>
+
+
+  </body>
+
+</html>	
