@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body class="no-sidebar">
+
+    {% include header.html %}
+    <div class="page-content">
+    	<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon fa-mobile"></span>
+					<h2>Tools frequently used by <strong>Oracle DBA </strong></h2>
+					<p>Everything is Easy when you are Crazy and nothing is Easy when you are Lazy.</p>
+				</header>
+					
+				<!-- One -->
+					<section class="wrapper style4 container">
+					
+						<!-- Content -->
+							<div class="content">
+								<section>
+
+									{{ content }}
+									
+								</section>
+							</div>
+
+					</section>
+
+
+				<!-- Two -->
+					<section class="wrapper style1 container special">
+						<div class="row">
+							{% for post in site.categories.unixdbatools limit:2 %}
+							<div class="4u">
+									<section>
+									{{ post.excerpt }}
+									<header>
+										<h3>{{ post.title }}</h3>
+									</header>									
+									<footer>									
+										<ul class="buttons">									
+											<li><a href="{{ post.url }}" class="button small">Learn More</a></li>									
+										</ul>									
+									</footer>									
+									</section>
+								</div>
+									{% endfor %}
+			</article>
+
+    </div>
+    {% include footer.html %}
+
+  </body>
+
+</html>	

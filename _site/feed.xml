@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 05 Jun 2018 22:59:09 +0545</pubDate>
-    <lastBuildDate>Tue, 05 Jun 2018 22:59:09 +0545</lastBuildDate>
+    <pubDate>Sun, 17 Jun 2018 23:52:49 +0545</pubDate>
+    <lastBuildDate>Sun, 17 Jun 2018 23:52:49 +0545</lastBuildDate>
     <generator>Jekyll v3.7.3</generator>
     
       <item>
@@ -240,6 +240,243 @@ destroy interface 111939a30 { host 'node2', haName '674a-6c55-9728-1e49', local 
         
         
         <category>upgrade</category>
+        
+      </item>
+    
+      <item>
+        <title>Some hands/tricks on with Oracle export/import</title>
+        <description>&lt;p&gt;&lt;a href=&quot;#&quot; class=&quot;image featured&quot;&gt; &lt;img src=&quot;/images/expdp-impdp.png&quot; alt=&quot;&quot; /&gt; &lt;/a&gt;&lt;/p&gt;
+
+&lt;header&gt;
+		&lt;h3&gt;Some hands on with Oracle export/import&lt;/h3&gt;
+&lt;/header&gt;
+
+&lt;p&gt;So today I will share some tips/tricks with reagrding to Oracle export/import(expdp/impdp). We will not be discussing the lagacy exp/imp here. We will go through some tips and 
+tricks helpful in different senarios during import or export.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Situation 1:&lt;/strong&gt;
+I want to export a user schema lets say BANKUSR from production to test for devlopment for further testing purpose.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Challanges:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol type=&quot;1&quot; style=&quot;margin-left: 2em; list-style-type: decimal; margin-top: -1.5em;&quot;&gt;
+&lt;li&gt;The test env already have BANKUSR schema&lt;/li&gt;
+&lt;li&gt;The physical structure of test db instance is different from prod db instance&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Solution:&lt;/strong&gt;
+Whenever we are in above mentioned situation, we can trick it by using appropriate parameter like REMAN_SCHEMA, REMAP_TABLESPACE.&lt;/p&gt;
+
+&lt;p&gt;Also there are some few remap parameters which i would like to discuss here:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;remap_data&lt;/strong&gt;: It can we used for permanent data masking during logical restore, which will take the sources original value of the designated column and returns a remapped value 
+that will replace the original value in the dump file but you have to develop a masking function and specify explictly.&lt;/p&gt;
+
+&lt;p&gt;The basic syntax is:
+&lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;REMAP_DATA=[schema.]tablename.column_name:[schema.]pkg.function&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want more please refer to like : &lt;a href=&quot;https://docs.oracle.com/database/121/SUTIL/GUID-B1D13216-93D3-4FFC-A0BB-082E133FD2B9.htm#SUTIL861&quot;&gt;Oracle Logical Backup.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;remap_datafile&lt;/strong&gt;:
+This parameter is greatly helpful when you are doing a whole database migration and are not interested to directory structure same as previous you can do it 
+by providing appropirate parameters.&lt;/p&gt;
+
+&lt;p&gt;The below listed parameters more general and widely used:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;remap_schema&lt;/strong&gt;: Use when source and destination schema name are/want different&lt;/p&gt;
+
+&lt;p&gt;&lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;remap_table&lt;/strong&gt;: Use when source and destination table name are/want be different&lt;/p&gt;
+
+&lt;p&gt;&lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;remap_tablespace &lt;/strong&gt;: Use when source and destination tablespace are/want or are  different&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Situation 2:&lt;/strong&gt;
+You are given a dump file from production and told to restore.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Challanges:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol type=&quot;1&quot; style=&quot;margin-left: 2em; list-style-type: decimal; margin-top: -1.5em;&quot;&gt;
+&lt;li&gt; You are not known whether its done by expdp or lagacy emp&lt;/li&gt;
+&lt;li&gt; You are not given physical/logical structure details&lt;/li&gt;
+&lt;li&gt; You are not given the schema user details&lt;/li&gt;
+&lt;li&gt; You are not known the database characterset&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Solution:&lt;/strong&gt;
+So few challanges right, what should one go for next. As enumerated above we will also make our action plan according to them.&lt;/p&gt;
+
+&lt;p&gt;1) Identify whether it was done with expdp/exp 
+So our first step would be to identify the tool that was used to take logical backup. We can do it by using unix command strings &amp;amp; head.&lt;/p&gt;
+
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black; margin-top: -3.5em;&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[oracle@oradr ~]$ strings appmeta.dmp | head -5
+&quot;SYS&quot;.&quot;SYS_EXPORT_SCHEMA_01&quot;
+x86_64/Linux 2.4.xx
+orcl
+US7ASCII
+11.02.00.00.00
+  &lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;So if you encounter similar like &lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;EXPORT_SCHEMA&lt;/strong&gt;, then we can conclude it was taken with expdp otherwise was lagacy exp.&lt;/p&gt;
+
+&lt;p&gt;2) Identify the database characterset
+With above command you can also get the characterset of the source database as in above case is &lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;US7ASCII&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;3) Identifying the schema name and logical structures
+The step is simple, we can do it by generating ddl first. We do not need to know schema name, logical structure of source database where the dump file was exported from in prior.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black; margin-top: -2.5em;&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[oracle@oradr ~]$ impdp dumpfile=hr.dmp sqlfile=hr.sql directory=dump_dir
+
+Import: Release 11.2.0.4.0 - Production on Mon Jun 18 03:33:21 2018
+
+Copyright (c) 1982, 2011, Oracle and/or its affiliates.  All rights reserved.
+
+Username: /as sysdba
+
+Connected to: Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 - 64bit Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining,
+Oracle Database Vault and Real Application Testing options
+Master table &quot;SYS&quot;.&quot;SYS_SQL_FILE_FULL_01&quot; successfully loaded/unloaded
+Starting &quot;SYS&quot;.&quot;SYS_SQL_FILE_FULL_01&quot;:  /******** AS SYSDBA dumpfile=hr.dmp sqlfile=hr.sql directory=dump_dir 
+Processing object type SCHEMA_EXPORT/USER
+Processing object type SCHEMA_EXPORT/SYSTEM_GRANT
+Processing object type SCHEMA_EXPORT/ROLE_GRANT
+Processing object type SCHEMA_EXPORT/DEFAULT_ROLE
+Processing object type SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+Processing object type SCHEMA_EXPORT/SEQUENCE/SEQUENCE
+Processing object type SCHEMA_EXPORT/TABLE/TABLE
+Processing object type SCHEMA_EXPORT/TABLE/GRANT/OWNER_GRANT/OBJECT_GRANT
+Processing object type SCHEMA_EXPORT/TABLE/COMMENT
+Processing object type SCHEMA_EXPORT/PROCEDURE/PROCEDURE
+Processing object type SCHEMA_EXPORT/PROCEDURE/ALTER_PROCEDURE
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/INDEX
+Processing object type SCHEMA_EXPORT/TABLE/CONSTRAINT/CONSTRAINT
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type SCHEMA_EXPORT/VIEW/VIEW
+Processing object type SCHEMA_EXPORT/TABLE/CONSTRAINT/REF_CONSTRAINT
+Processing object type SCHEMA_EXPORT/TABLE/TRIGGER
+Processing object type SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Job &quot;SYS&quot;.&quot;SYS_SQL_FILE_FULL_01&quot; successfully completed at Mon Jun 18 03:33:29 2018 elapsed 0 00:00:03
+
+[oracle@oradr ~]$ 
+  &lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Afer generating sql only, we will use some unix command like cat, grep and sort to find the schema name.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black; margin-top: -2.5em;&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[oracle@oradr ~]$ cat hr.sql | grep 'CREATE USER'
+ CREATE USER &quot;HR&quot; IDENTIFIED BY VALUES 'S:891636E9E2A56E429380E30CBCF20B678EA0CCE21F41CC3C50F4693E9C8F;4C6D73C3E8B0F0DA'
+[oracle@oradr ~]$ 
+  &lt;/code&gt;
+&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;After knowing the schema name then we will find what tablespace the schema uses.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black; margin-top: -2.5em;&quot;&gt;
+	&lt;code class=&quot;bash&quot;&gt;
+[oracle@oradr ~]$ cat hr.sql | grep TABLESPACE| sort -u
+      DEFAULT TABLESPACE &quot;USERS&quot;
+GRANT UNLIMITED TABLESPACE TO &quot;HR&quot;;
+  TABLESPACE &quot;EXAMPLE&quot; 
+  TABLESPACE &quot;EXAMPLE&quot; ;
+  TABLESPACE &quot;EXAMPLE&quot; PARALLEL 1 ;
+      TEMPORARY TABLESPACE &quot;TEMP&quot;;
+[oracle@oradr ~]$ 
+  &lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;table style=&quot;font-family: monospace; font-size: 0.8em; color: black;&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+		&lt;th&gt;Export From Source Database With&lt;/th&gt;
+		&lt;th colspan=&quot;6&quot;&gt;
+		      Use Export Data Pump parameter VERSION=... if dumpfile needs to be imported into a Target Database with compatibility level (value of init.ora/spfile parameter COMPATIBLE):
+		  &lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+		&lt;th&gt;COMPATIBLE&lt;/th&gt;
+		&lt;th&gt;   10.1.0.x.y&lt;/th&gt;
+		&lt;th&gt;   10.2.0.x.y&lt;/th&gt;
+		&lt;th&gt;   11.1.0.x.y&lt;/th&gt;
+		&lt;th&gt;   11.2.0.x.y&lt;/th&gt;
+		&lt;th&gt;   12.1.0.x.y&lt;/th&gt;
+		&lt;th&gt;   12.2.0.x.y&lt;/th&gt;
+		&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;10.1.0.x.y&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;10.2.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;11.1.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;11.2.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt; VERSION=11.1&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;12.1.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt; VERSION=11.1&lt;/td&gt;&lt;td&gt; VERSION=11.2&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;12.2.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt; VERSION=11.1&lt;/td&gt;&lt;td&gt; VERSION=11.2&lt;/td&gt;&lt;td&gt; VERSION=12.1&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+
+th {
+	border-top: 1px solid #fff;
+	color: #333;
+	padding: 10px 15px;
+	position: relative;
+	text-shadow: 0 1px 0 #000;
+	background-color: #eee;	
+}
+
+th:after {
+	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
+	content: '';
+	display: block;
+	height: 25%;
+	left: 0;
+	margin: 1px 0 0 0;
+	position: absolute;
+	top: 25%;
+	width: 100%;
+}
+
+td {
+	border-right: 1px solid #fff;
+	border-left: 1px solid #e8e8e8;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #e8e8e8;
+	padding: 5px 5px;
+}
+
+tr:nth-child(odd) td {
+	background: #f1f1f1;	
+}
+
+tr:last-of-type td {
+	box-shadow: inset 0 -1px 0 #fff; 
+}
+
+tr:last-of-type td:first-child {
+	box-shadow: inset 1px -1px 0 #fff;
+}	
+
+tr:last-of-type td:last-child {
+	box-shadow: inset -1px -1px 0 #fff;
+}	
+&lt;/style&gt;
+
+</description>
+        <pubDate>Thu, 31 May 2018 18:05:00 +0545</pubDate>
+        <link>http://localhost:4000/unixdbatools/2018/05/31/export-import-tricks.html</link>
+        <guid isPermaLink="true">http://localhost:4000/unixdbatools/2018/05/31/export-import-tricks.html</guid>
+        
+        
+        <category>unixdbatools</category>
         
       </item>
     
