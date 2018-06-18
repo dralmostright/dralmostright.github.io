@@ -155,86 +155,37 @@ GRANT UNLIMITED TABLESPACE TO "HR";
   </code>
 </pre>
 
-<table style="font-family: monospace; font-size: 0.8em; color: black;">
-    <thead>
-        <tr>
-		<th>Export From Source Database With</th>
-		<th colspan="6">
-		      Use Export Data Pump parameter VERSION=... if dumpfile needs to be imported into a Target Database with compatibility level (value of init.ora/spfile parameter COMPATIBLE):
-		  </th>
-        </tr>
-        <tr>
-		<th>COMPATIBLE</th>
-		<th>   10.1.0.x.y</th>
-		<th>   10.2.0.x.y</th>
-		<th>   11.1.0.x.y</th>
-		<th>   11.2.0.x.y</th>
-		<th>   12.1.0.x.y</th>
-		<th>   12.2.0.x.y</th>
-		</tr>
-    </thead>
-    <tbody>
-<tr><td>10.1.0.x.y</td><td>            -</td><td>            -</td><td>            -</td><td>            -</td><td>            -</td><td>            -</td></tr>
-<tr><td>10.2.0.x.y</td><td> VERSION=10.1</td><td>            -</td><td>            -</td><td>            -</td><td>            -</td><td>            -</td></tr>
-<tr><td>11.1.0.x.y</td><td> VERSION=10.1</td><td> VERSION=10.2</td><td>            -</td><td>            -</td><td>            -</td><td>            -</td></tr>
-<tr><td>11.2.0.x.y</td><td> VERSION=10.1</td><td> VERSION=10.2</td><td> VERSION=11.1</td><td>            -</td><td>            -</td><td>            -</td></tr>
-<tr><td>12.1.0.x.y</td><td> VERSION=10.1</td><td> VERSION=10.2</td><td> VERSION=11.1</td><td> VERSION=11.2</td><td>            -</td><td>            -</td></tr>
-<tr><td>12.2.0.x.y</td><td> VERSION=10.1</td><td> VERSION=10.2</td><td> VERSION=11.1</td><td> VERSION=11.2</td><td> VERSION=12.1</td><td>            -</td></tr>
-    </tbody>
-</table>
+<strong>Situation 3:</strong>
+You are doing a import, what would you need to know and consider before starting job.
 
+<strong>Challanges:</strong>
+<ol type="1" style="margin-left: 2em; list-style-type: decimal; margin-top: -1.5em;">
+<li> How to monitor import jobs, if the dump file is enough big.</li>
+<li> Can you parallelize the import job?</li>
+</ol> 
 
-<style>
+<strong>Solution:</strong>
+During import job, its good practice to monitor how much space are available on destination database, which queries should i use to monitor jobs or logs to look for, do i also need addition space except in database.
 
-th {
-	border-top: 1px solid #fff;
-	color: #333;
-	padding: 10px 15px;
-	position: relative;
-	text-shadow: 0 1px 0 #000;
-	background-color: #eee;	
-}
+If there is not enough in tablespace, make sure there is enough space at database level. You can do it by increasing size or adding new datafiles to respective tablespaces. Also one sould not forget to monitor the database alert log.
 
-th:after {
-	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
-	content: '';
-	display: block;
-	height: 25%;
-	left: 0;
-	margin: 1px 0 0 0;
-	position: absolute;
-	top: 25%;
-	width: 100%;
-}
+In addition if your destination database is running in archivelog mode you should regularly monitor the mountpoint where archivelogs are archived.
 
-td {
-	border-right: 1px solid #fff;
-	border-left: 1px solid #e8e8e8;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #e8e8e8;
-	padding: 5px 5px;
-}
+For importing huge size dumps, generally it is good practice to run the job by creating a shell script and running it on background using unix command nohup.
 
-tr:nth-child(odd) td {
-	background: #f1f1f1;	
-}
+One can monitor the status of import job by running the following query:
+<hr>
+<pre style="overflow: auto; font-family: monospace; font-size: 0.8em; color: black; margin-top: -2.5em;">
+	<code class="bash">
+SELECT b.username, a.sid, b.opname, b.target, round(b.SOFAR*100/b.TOTALWORK,0) || '%' as "%DONE", b.TIME_REMAINING,
+to_char(b.start_time,'YYYY/MM/DD HH24:MI:SS') start_time
+FROM v$session_longops b, v$session a
+WHERE a.sid = b.sid ORDER BY 6;
+  </code>
+</pre>
 
-tr:last-of-type td {
-	box-shadow: inset 0 -1px 0 #fff; 
-}
+<hr>
+The import/export jobs can be parallelized using the flag <strong style="overflow: auto; font-family: monospace; font-size: 0.8em; color: black">PARALLEL</strong> and providing appropriate values, but one should consider the no. of CPU on the box. The parallelism also depends on the size of dump file, like specifying <strong style="overflow: auto; font-family: monospace; font-size: 0.8em; color: black">PARALLEL=10</strong> for 1GB won't perform job in 10 degree parallelism. The basic unit storage  size for parallelism is 250MB. Checking box's CPU and memory usage is better during the whole job operation.
 
-tr:last-of-type td:first-child {
-	box-shadow: inset 1px -1px 0 #fff;
-}	
-
-tr:last-of-type td:last-child {
-	box-shadow: inset -1px -1px 0 #fff;
-}	
-</style>
-
-
-
-
-
-
-
+<strong>Note:</strong>
+The above described situation/tricks are basic guidelines and tricks which will will be helpful in most of the scenarios and if you want more you can visit the offical Oracle doc homepage.

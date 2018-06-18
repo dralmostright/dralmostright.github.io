@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 17 Jun 2018 23:52:49 +0545</pubDate>
-    <lastBuildDate>Sun, 17 Jun 2018 23:52:49 +0545</lastBuildDate>
+    <pubDate>Mon, 18 Jun 2018 19:45:03 +0545</pubDate>
+    <lastBuildDate>Mon, 18 Jun 2018 19:45:03 +0545</lastBuildDate>
     <generator>Jekyll v3.7.3</generator>
     
       <item>
@@ -394,82 +394,42 @@ GRANT UNLIMITED TABLESPACE TO &quot;HR&quot;;
   &lt;/code&gt;
 &lt;/pre&gt;
 
-&lt;table style=&quot;font-family: monospace; font-size: 0.8em; color: black;&quot;&gt;
-    &lt;thead&gt;
-        &lt;tr&gt;
-		&lt;th&gt;Export From Source Database With&lt;/th&gt;
-		&lt;th colspan=&quot;6&quot;&gt;
-		      Use Export Data Pump parameter VERSION=... if dumpfile needs to be imported into a Target Database with compatibility level (value of init.ora/spfile parameter COMPATIBLE):
-		  &lt;/th&gt;
-        &lt;/tr&gt;
-        &lt;tr&gt;
-		&lt;th&gt;COMPATIBLE&lt;/th&gt;
-		&lt;th&gt;   10.1.0.x.y&lt;/th&gt;
-		&lt;th&gt;   10.2.0.x.y&lt;/th&gt;
-		&lt;th&gt;   11.1.0.x.y&lt;/th&gt;
-		&lt;th&gt;   11.2.0.x.y&lt;/th&gt;
-		&lt;th&gt;   12.1.0.x.y&lt;/th&gt;
-		&lt;th&gt;   12.2.0.x.y&lt;/th&gt;
-		&lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-&lt;tr&gt;&lt;td&gt;10.1.0.x.y&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;10.2.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;11.1.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;11.2.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt; VERSION=11.1&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;12.1.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt; VERSION=11.1&lt;/td&gt;&lt;td&gt; VERSION=11.2&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;12.2.0.x.y&lt;/td&gt;&lt;td&gt; VERSION=10.1&lt;/td&gt;&lt;td&gt; VERSION=10.2&lt;/td&gt;&lt;td&gt; VERSION=11.1&lt;/td&gt;&lt;td&gt; VERSION=11.2&lt;/td&gt;&lt;td&gt; VERSION=12.1&lt;/td&gt;&lt;td&gt;            -&lt;/td&gt;&lt;/tr&gt;
-    &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Situation 3:&lt;/strong&gt;
+You are doing a import, what would you need to know and consider before starting job.&lt;/p&gt;
 
-&lt;style&gt;
+&lt;p&gt;&lt;strong&gt;Challanges:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol type=&quot;1&quot; style=&quot;margin-left: 2em; list-style-type: decimal; margin-top: -1.5em;&quot;&gt;
+&lt;li&gt; How to monitor import jobs, if the dump file is enough big.&lt;/li&gt;
+&lt;li&gt; Can you parallelize the import job?&lt;/li&gt;
+&lt;/ol&gt;
 
-th {
-	border-top: 1px solid #fff;
-	color: #333;
-	padding: 10px 15px;
-	position: relative;
-	text-shadow: 0 1px 0 #000;
-	background-color: #eee;	
-}
+&lt;p&gt;&lt;strong&gt;Solution:&lt;/strong&gt;
+During import job, its good practice to monitor how much space are available on destination database, which queries should i use to monitor jobs or logs to look for, do i also need addition space except in database.&lt;/p&gt;
 
-th:after {
-	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
-	content: '';
-	display: block;
-	height: 25%;
-	left: 0;
-	margin: 1px 0 0 0;
-	position: absolute;
-	top: 25%;
-	width: 100%;
-}
+&lt;p&gt;If there is not enough in tablespace, make sure there is enough space at database level. You can do it by increasing size or adding new datafiles to respective tablespaces. Also one sould not forget to monitor the database alert log.&lt;/p&gt;
 
-td {
-	border-right: 1px solid #fff;
-	border-left: 1px solid #e8e8e8;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #e8e8e8;
-	padding: 5px 5px;
-}
+&lt;p&gt;In addition if your destination database is running in archivelog mode you should regularly monitor the mountpoint where archivelogs are archived.&lt;/p&gt;
 
-tr:nth-child(odd) td {
-	background: #f1f1f1;	
-}
+&lt;p&gt;For importing huge size dumps, generally it is good practice to run the job by creating a shell script and running it on background using unix command nohup.&lt;/p&gt;
 
-tr:last-of-type td {
-	box-shadow: inset 0 -1px 0 #fff; 
-}
+&lt;p&gt;One can monitor the status of import job by running the following query:&lt;/p&gt;
+&lt;hr /&gt;
 
-tr:last-of-type td:first-child {
-	box-shadow: inset 1px -1px 0 #fff;
-}	
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black; margin-top: -2.5em;&quot;&gt;
+	&lt;code class=&quot;bash&quot;&gt;
+SELECT b.username, a.sid, b.opname, b.target, round(b.SOFAR*100/b.TOTALWORK,0) || '%' as &quot;%DONE&quot;, b.TIME_REMAINING,
+to_char(b.start_time,'YYYY/MM/DD HH24:MI:SS') start_time
+FROM v$session_longops b, v$session a
+WHERE a.sid = b.sid ORDER BY 6;
+  &lt;/code&gt;
+&lt;/pre&gt;
 
-tr:last-of-type td:last-child {
-	box-shadow: inset -1px -1px 0 #fff;
-}	
-&lt;/style&gt;
+&lt;hr /&gt;
 
+&lt;p&gt;The import/export jobs can be parallelized using the flag &lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;PARALLEL&lt;/strong&gt; and providing appropriate values, but one should consider the no. of CPU on the box. The parallelism also depends on the size of dump file, like specifying &lt;strong style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;PARALLEL=10&lt;/strong&gt; for 1GB won’t perform job in 10 degree parallelism. The basic unit storage  size for parallelism is 250MB. Checking box’s CPU and memory usage is better during the whole job operation.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;
+The above described situation/tricks are basic guidelines and tricks which will will be helpful in most of the scenarios and if you want more you can visit the offical Oracle doc homepage.&lt;/p&gt;
 </description>
         <pubDate>Thu, 31 May 2018 18:05:00 +0545</pubDate>
         <link>http://localhost:4000/unixdbatools/2018/05/31/export-import-tricks.html</link>
