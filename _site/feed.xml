@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 18 Jun 2018 19:45:03 +0545</pubDate>
-    <lastBuildDate>Mon, 18 Jun 2018 19:45:03 +0545</lastBuildDate>
+    <pubDate>Mon, 02 Jul 2018 00:24:17 +0545</pubDate>
+    <lastBuildDate>Mon, 02 Jul 2018 00:24:17 +0545</lastBuildDate>
     <generator>Jekyll v3.7.3</generator>
     
       <item>
@@ -441,7 +441,7 @@ The above described situation/tricks are basic guidelines and tricks which will 
       </item>
     
       <item>
-        <title>Basic Commands Every Unix DBA Should Know</title>
+        <title>Basic Commands Every Unix DBA Should Know Part-I</title>
         <description>&lt;p&gt;&lt;a href=&quot;#&quot; class=&quot;image featured&quot;&gt; &lt;img src=&quot;/images/cmdwordcloud.png&quot; alt=&quot;&quot; /&gt; &lt;/a&gt;&lt;/p&gt;
 
 &lt;header&gt;
@@ -533,6 +533,123 @@ J?f+e4I~1b1
 [oracle@test trace]$
   &lt;/code&gt;
 &lt;/pre&gt;
+
+&lt;p&gt;&lt;span&gt;
+	&lt;strong&gt;3. ps&lt;/strong&gt;
+	&lt;br /&gt;
+&lt;/span&gt;
+So ps is one of the fundamental command that every unix dba should know. As &lt;em&gt;*nix&lt;/em&gt; is a multitasking and multi-user system, allowing multiple process operate concurrently independently and also it is the siginificant aspect/concept that places &lt;em&gt;*nix&lt;/em&gt; O/S at dominance. So &lt;em&gt;*nix&lt;/em&gt; offer a utility ps to monitor the information associated the process. ps command is used to list the currently running processes and their PIDs along with some other information depends on different options.&lt;/p&gt;
+
+&lt;p&gt;ps provides numerous options for manipulating the output according to our need. I will be discussing some basic as well as moderate use of ps command.&lt;/p&gt;
+
+&lt;p&gt;Lets start with default usage. By symply typing ps command it lists all the process on the current shell. We can witness as below:&lt;/p&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[root@rhost ~]# ps
+  PID TTY          TIME CMD
+ 6049 pts/4    00:00:00 bash
+ 6159 pts/4    00:00:00 bash
+ 6269 pts/4    00:00:00 ps
+[root@rhost ~]# 
+ &lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;where,&lt;/p&gt;
+&lt;ul style=&quot;list-style-type:disc; margin-left: 2em&quot;&gt;
+&lt;li&gt;&lt;strong&gt;PID&lt;/strong&gt; the unique process ID&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TTY&lt;/strong&gt; terminal type that the user is logged into&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TIME&lt;/strong&gt; amount of CPU in minutes and seconds that the process has been running&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CMD&lt;/strong&gt;  name of the command that launched the process&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Likewise we can append some flags for for detail information. ps with -e flag lists all the active process in &lt;em&gt;*nix&lt;/em&gt; box.&lt;/p&gt;
+&lt;ol type=&quot;1&quot; style=&quot;margin-left: 2em; list-style-type: decimal; margin-top: -1.5em;&quot;&gt;
+&lt;li&gt;ps -ef : lists all the full format process information&lt;/li&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[root@rhost ~]# ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 23:03 ?        00:00:10 /usr/lib/systemd/systemd --switched-root --system --deserialize 21
+root         2     0  0 23:03 ?        00:00:00 [kthreadd]
+root         3     2  0 23:03 ?        00:00:00 [ksoftirqd/0]
+root         5     2  0 23:03 ?        00:00:00 [kworker/0:0H]
+root         6     2  0 23:03 ?        00:00:00 [kworker/u:0]
+ &lt;/code&gt;
+&lt;/pre&gt;
+
+
+&lt;li&gt;ps -fU ##username : list all the process run by user ##username e.g: ps -fU suman&lt;/li&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[root@rhost ~]# ps -fU suman
+UID        PID  PPID  C STIME TTY          TIME CMD
+suman     1266     1  0 23:04 ?        00:00:00 /usr/bin/Xvnc :4 -desktop rhost.localdomain:4 (suman) -auth /workspace/suman/.Xauthority -geometry 1024x768 -rfbwait 30000 -rfbauth /workspace/
+suman     1291     1  0 23:04 ?        00:00:00 /usr/bin/Xvnc :5 -desktop rhost.localdomain:5 (suman) -auth /workspace/suman/.Xauthority -geometry 1280x720 -rfbwait 30000 -rfbauth /workspace/
+suman     1327     1  0 23:04 ?        00:00:00 /usr/bin/vncconfig -iconic
+suman     1329     1  0 23:04 ?        00:00:00 /bin/gnome-session --session=gnome-classic
+ &lt;/code&gt;
+&lt;/pre&gt;
+&lt;li&gt;ps -fG ##groupname : list all the process owned by group ##groupname e.g. ps -fG suman&lt;/li&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[root@rhost ~]# ps -fG home
+UID        PID  PPID  C STIME TTY          TIME CMD
+suman     1327     1  0 23:04 ?        00:00:00 /usr/bin/vncconfig -iconic
+suman     1329     1  0 23:04 ?        00:00:00 /bin/gnome-session --session=gnome-classic
+suman     1338     1  0 23:04 ?        00:00:00 dbus-launch --sh-syntax --exit-with-session
+suman     1352     1  0 23:04 ?        00:00:00 /usr/bin/vncconfig -iconic
+suman     1354     1  0 23:04 ?        00:00:00 /bin/gnome-session --session=gnome-classic
+ &lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;li&gt;ps -e --forest : list the all process with their process span tree&lt;/li&gt;
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[root@rhost ~]# ps -e --forest
+  PID TTY          TIME CMD
+. . . . . . .
+. . . . . . .
+  905 ?        00:00:00 sshd
+ 2918 ?        00:00:01  \_ sshd
+ 4480 pts/1    00:00:00      \_ bash
+ 4616 pts/1    00:00:12      |   \_ ruby
+ 6049 pts/4    00:00:00      \_ bash
+ 6159 pts/4    00:00:00          \_ bash
+ 9040 pts/4    00:00:00              \_ ps
+. . . . . . .
+. . . . . . .
+ &lt;/code&gt;
+&lt;/pre&gt;
+You can also view process tree by specifying the program name like:
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[root@rhost ~]# ps -f --forest -C chrome
+UID        PID  PPID  C STIME TTY          TIME CMD
+root      4733  4633  2 Jul01 pts/2    00:01:09 /opt/google/chrome/chrome --no-sandbox
+root      4821  4733  0 Jul01 pts/2    00:00:02  \_ /opt/google/chrome/chrome --type=zygote --no-sandbox
+root      5017  4821  1 Jul01 pts/2    00:00:34      \_ /opt/google/chrome/chrome --type=renderer --no-sandbox --field-trial-handle=1 --primordial-pipe-token=71ECBFA37DAFD4DFB683E60120F77203 
+[root@rhost ~]# 
+ &lt;/code&gt;
+&lt;/pre&gt;
+
+One can also view the all process instances running on the box issuing below command
+&lt;pre style=&quot;overflow: auto; font-family: monospace; font-size: 0.8em; color: black&quot;&gt;
+&lt;code class=&quot;bash&quot;&gt;
+[root@rhost ~]# ps -fL -C chrome
+UID        PID  PPID   LWP  C NLWP STIME TTY          TIME CMD
+root      4733  4633  4733  0   32 Jul01 pts/2    00:00:34 /opt/google/chrome/chrome --no-sandbox
+root      4733  4633  4819  0   32 Jul01 pts/2    00:00:00 /opt/google/chrome/chrome --no-sandbox
+root      4733  4633  4846  0   32 Jul01 pts/2    00:00:00 /opt/google/chrome/chrome --no-sandbox
+root      4733  4633  4847  0   32 Jul01 pts/2    00:00:00 /opt/google/chrome/chrome --no-sandbox
+&lt;/code&gt;
+&lt;/pre&gt;
+
+If you want more you can view the go to link : https://www.freebsd.org/cgi/man.cgi?query=ps&amp;amp;manpath=SuSE+Linux/i386+11.3
+
+&lt;hr /&gt;
+Here comes the end for our first unix dba cmd/tools. We will discuss more on next blog. Stay tuned.
+&lt;/ol&gt;
+
 </description>
         <pubDate>Thu, 31 May 2018 18:05:00 +0545</pubDate>
         <link>http://localhost:4000/unixdbacmd/2018/05/31/unix-dba-cmd.html</link>
