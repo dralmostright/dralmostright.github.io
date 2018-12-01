@@ -17,4 +17,4 @@ markdown: kramdown
 #     - jekyll-sitemap
 
 plugins:
-  - jekyll-sitemap
+#  - jekyll-sitemap
